@@ -20,6 +20,7 @@ String buildNumber = System.getenv("GITHUB_RUN_NUMBER")
 version = "${mod_version}+${minecraft_version}" + (buildNumber != null ? "-${buildNumber}" : "")
 
 repositories {
+	maven { url = "https://api.modrinth.com/maven" } // Jade
 	maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
 	maven { url = "https://dvs1.progwml6.com/files/maven/" } // JEI
 	maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
@@ -49,6 +50,12 @@ dependencies {
 	// Create - dependencies are added transitively
 	modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")
 
+	// Jade
+	modImplementation "maven.modrinth:jade:${jade_version}"
+
+	// Jade Addons
+	modImplementation "maven.modrinth:jade-addons-fabric:${jade_addons_version}"
+
 	// Development QOL
 	modLocalRuntime("maven.modrinth:lazydfu:${lazydfu_version}")
 	modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
@@ -62,12 +69,6 @@ dependencies {
 		case "disabled": break
 		default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
 	}
-	// if you would like to add integration with them, uncomment them here.
-//    modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_fabric_version}")
-//    modCompileOnly("mezz.jei:jei-${minecraft_version}-common:${jei_fabric_version}")
-//    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}")
-//    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}")
-//    modCompileOnly("dev.emi:emi:${emi_version}")
 }
 
 processResources {
